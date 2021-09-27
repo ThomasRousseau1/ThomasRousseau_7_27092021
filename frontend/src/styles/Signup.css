@@ -1,0 +1,10 @@
+.lmj-banner {
+    height: 200px;
+    text-align: center;
+    border-bottom: 2px solid darkgray;
+}
+
+.lmj-logo {
+    height: 8rem;
+    margin: 2.3rem;
+}
