@@ -1,20 +1,18 @@
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import Banner from './Banner'
-import Home from './Home'
+// import Banner from './Banner'
+// import Home from './Hometest'
 import Signup from './Signup'
 import Login  from './Login'
-import Post from './Post'
+import Home from './Home'
 import ProfileTest from './ProfileTest.js'
-import { Route, Link } from "react-router-dom";
-import { useHistory} from 'react-router-dom'
-import axios from 'axios'
+import { Route } from "react-router-dom";
+// import { useHistory} from 'react-router-dom'
+// import axios from 'axios'
 
-const api = axios.create ({
-    baseURL: `http://localhost:3000`
-})
-
-
+// const api = axios.create ({
+//     baseURL: `http://localhost:3000`
+// })
 
 
 function App() {
@@ -22,9 +20,9 @@ function App() {
   return (
     <div className="App">
       <Route path="/login" exact component={Login} />
-      <Route path="/" exact component={Home} />
+      <Route path="/" exact component={Login} />
       <Route path="/signup" exact component={Signup} />
-      <Route path="/post" exact component={Post} />
+      <Route path="/home" exact component={Home} />
       <Route path="/profile" exact component={ProfileTest} />
     </div>
   );
