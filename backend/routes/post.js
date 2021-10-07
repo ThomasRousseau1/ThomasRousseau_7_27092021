@@ -1,3 +1,35 @@
+const express = require('express');
+const router = express.Router();
+
+const auth = require('../middleware/auth');
+// const multer = require('../middleware/multer-config');
+const postCtrl =  require('../controllers/post');
+
+router.post('/', auth, postCtrl.createPost);//Penser à rajouter auth
+router.get('/', postCtrl.getAllPosts);
+// router.put('/:id', postCtrl.modifyPost);//Penser à rajouter auth
+router.delete('/:id', postCtrl.deletePost);//Penser à rajouter auth
+
+module.exports = router; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // //Imports 
 // const models = require('../models');
 // const asyncLib = require('async');

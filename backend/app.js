@@ -6,7 +6,7 @@ const { Sequelize } = require('sequelize');
 const helmet = require('helmet');
 // const cors = require('cors');
 // const nocache = require('nocache');
-// const postRoutes = require('./routes/posts');
+const postRoutes = require('./routes/post.js');
 const userRoutes = require('./routes/user.js');
 
 require('dotenv').config();
@@ -51,7 +51,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // app.use('/images', express.static(path.join(__dirname, 'images')));
-// app.use('/api/posts', postRoutes);
+app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 
 

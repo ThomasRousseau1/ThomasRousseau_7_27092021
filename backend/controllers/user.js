@@ -30,9 +30,9 @@ exports.login = (req, res, next) => {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });                 
                     }
                     res.status(200).json({//Si la comparaison est valable, renvoi d'un userid et d'un token à l'utilisateur
-                        userId: user._id,
+                        userId: user.id,
                         token: jwt.sign(                    
-                               { userId: user._id },//Données qu'on veut encoder dans le token(payload)   
+                               { userId: user.id },//Données qu'on veut encoder dans le token(payload)   
                                process.env.JWT_SIGN_SECRET,//Clef secrète pour l'encodage
                                { expiresIn: '24h'}//Date d'expiration du token                   
                         )
