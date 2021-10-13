@@ -15,11 +15,11 @@ function Signup() {
         e.preventDefault()
         const data = {firstName: firstName, lastName: lastName, email: email, password: password, image: image}
 
-        fetch('http://localhost:3000/api/users/login', {
+        fetch('http://localhost:3000/api/users/signup', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         }
     })
     .then(res => res.data)
