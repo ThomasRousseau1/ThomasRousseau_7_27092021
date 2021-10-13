@@ -26,8 +26,12 @@ function Login() {
             'Content-Type': 'application/json'
         },
     })
-          .then(res => res.data)
-
+    .then(res => res.json())
+    .then(
+        (res) => {
+            console.log(res)
+            localStorage.setItem('token', res.token);
+        })
           .then(() => {
             window.location.href = "/home";
         })
