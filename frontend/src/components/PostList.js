@@ -13,6 +13,26 @@ const PostList = ({ posts, title }) => {
     //         history.push('/');
     //     })
     // }
+    
+const deletePost = (e, id) => {
+    e.preventDefault()
+    fetch('http://localhost:3000/api/posts/' + id, {
+    method: 'DELETE',
+    headers: {
+        Authorization:'Bearer '+localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+    },
+    })
+    .then(res => res.json())
+    .then(() => {
+            window.location.href = "/home";
+        })
+    .catch( (error) => {
+        alert(error)
+        console.log(error)
+    })
+}
+
 
     return (
         <div className="App-posts">
@@ -31,7 +51,7 @@ const PostList = ({ posts, title }) => {
                         <p>J'aime</p>
                         <p>Commenter</p>
                     </div>
-                    <button>Supprimer</button>
+                    <button onClick={e => deletePost(e, post.id)}>Supprimer</button>
                     {/* <button onClick={() => handleDelete(post.id)}>Supprimer la publication</button> */}
                 </div>
             ))}
