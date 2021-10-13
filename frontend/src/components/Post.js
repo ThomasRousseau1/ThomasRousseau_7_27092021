@@ -1,24 +1,75 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/Post.css'
-import {Link} from 'react-router-dom'
-import logo from '../assets/icon-left-font.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faNewspaper, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
-function Home() {
+
+function Post() {
+    const [title, setTitle] = useState("")
+    const [content, setContent] = useState("")
+    const [attachement, setAttachement] = useState("")
+    const [likes, setLikes] = useState("")
+
+    const handleSubmit = e => {
+        e.preventDefault()
+
+        const data = { 
+            title: title, 
+            content: content,
+            attachement: attachement, 
+            likes: 1
+        }
+
+
+        fetch('http://localhost:3000/api/posts', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+        },
+    })
+    .then(res => res.json())
+        // .then(
+        // (res) => {
+        //     console.log(res)
+        //     localStorage.setItem('token', res.token);
+        // })
+    .then(() => {
+        window.location.href = '/Home'
+    })
+        .catch( (error) => {
+            alert(error)
+        })
+        console.log(data);
+    }
+
     return (
-        <div className="lmj-banner">
-            <div className="connexion-search">
-                <input type="text" placeholder="Rechercher un utilisateur..."/>
-            <Link to="/post"><FontAwesomeIcon icon={faNewspaper } className="connexion-feed"></FontAwesomeIcon></Link>
-            </div>
-        <img src={logo} alt='Groupomania logo' className='lmj-logo'></img>
-        <div className="connexion-banner">
-            <div className="connexion-img"><Link to="/profile"><FontAwesomeIcon icon={faUserCircle } className="connexion-user"></FontAwesomeIcon></Link></div>
-            <a className="connexion-disconnect"><Link to="/login">Déconnexion</Link></a>
+        <div className="App-body">
+            <form className="App-post" onSubmit={e => handleSubmit(e)}>
+                <h1>Publier :</h1>
+                <label>
+                    Titre :
+                    <br/>
+                    <input type="text" name="titre" value={title} onChange={e => setTitle(e.target.value)}></input>
+                </label>
+                <label>
+                    Content :
+                    <br/>
+                    <input type="text" name="message" value={content} onChange={e => setContent(e.target.value)}></input>
+                </label>
+                <label>
+                    Votre image :
+                    <br/>
+                    <input type="text" name="image" value={attachement} onChange={e => setAttachement(e.target.value)}></input>
+                </label>
+                <label>
+                    Likes
+                    <br/>
+                    <input type="text" name="likes" value={likes} onChange={e => setLikes(e.target.value)}></input>
+                </label>
+                <button className="login-button">Publier</button>
+            </form>
         </div>
-    </div>
     )
 }
 
-export default Home
+export default Post; 
