@@ -28,11 +28,6 @@ function Post() {
         },
     })
     .then(res => res.json())
-        // .then(
-        // (res) => {
-        //     console.log(res)
-        //     localStorage.setItem('token', res.token);
-        // })
     .then(() => {
         window.location.href = '/Home'
     })
@@ -71,5 +66,7 @@ function Post() {
         </div>
     )
 }
+
+
 
 export default Post; 

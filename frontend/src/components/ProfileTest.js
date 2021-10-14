@@ -1,14 +1,15 @@
 import React from 'react'
 import '../styles/ProfileTest.css'
 import {Link} from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 function ProfileTest() {
     return (
         
         <div className="App-connect">
-            <img />
             <form className="form">
-                <img src="https://images.radio-canada.ca/q_auto,w_1250/v1/ici-info/16x9/dexter-saison-9-retour-michael-c-hall-tueur-en-serie.jpg" className="profile-img"/>
+            <FontAwesomeIcon icon={faUserCircle} className="connexion-feed"><img src="" className="profile-img" alt="Votre avatar"/></FontAwesomeIcon>
                 <h2>Votre profil</h2>
                 Votre prénom :
                 <input type="text" className="input"></input>
