@@ -6,9 +6,9 @@ const auth = require('../middleware/auth');
 const postCtrl =  require('../controllers/post');
 
 router.post('/', auth, postCtrl.createPost);//Penser à rajouter auth
-router.get('/', postCtrl.getAllPosts);
-// router.put('/:id', postCtrl.modifyPost);//Penser à rajouter auth
-router.delete('/:id', postCtrl.deletePost);//Penser à rajouter auth
+router.get('/', auth, postCtrl.getAllPosts);
+router.put('/:id', auth, postCtrl.modifyPost);//Penser à rajouter auth
+router.delete('/:id', auth, postCtrl.deletePost);//Penser à rajouter auth
 
 module.exports = router; 
 
