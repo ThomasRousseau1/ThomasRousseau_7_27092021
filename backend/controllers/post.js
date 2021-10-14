@@ -7,9 +7,6 @@ exports.createPost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);//Décodage du token, vérification du token avec la clef secrète
     const UserId = decodedToken.userId;//Récupération de l'userId dans le TOKEN
-    //  models.User.findOne({
-    //   where: { id: userId },
-    // })
     models.Post.create ({
         // id: 
         UserId: UserId, 
@@ -27,14 +24,36 @@ exports.createPost = (req, res, next) => {
 
 //Controller pour modifier une sauce
 exports.modifyPost = (req, res, next) => {
-    Post.modifyOne
+
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
+    const UserId = decodedToken.userId;
+    console.log(UserId);
+    models.Post.update({
+        title: req.body.title,
+        // content: req.body.content,
+        // attachement: req.body.attachement,
+    },
+        {
+            where: {
+            id: req.params.id,
+            userId: UserId
+        }
+    })
+    .then(() => res.status(200).json({ message: 'Post modifié !'}))
+    .catch((error) => res.status(400).json({ error }));
 }
 
 
 exports.deletePost = (req, res, next) => {
+    // console.log(req.body.decodedToken);
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
+    const UserId = decodedToken.userId;
     models.Post.destroy({
         where: {
-          id: req.params.id 
+          id: req.params.id,
+          UserId: UserId 
         }
       })
     .then(() => res.status(200).json({ message: 'Post supprimé !'}))
@@ -49,4 +68,3 @@ exports.getAllPosts = (req, res, next) => {
 }
 
 //PARTIE LIKES
-
