@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import '../styles/Post.css'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 function Post() {
-    const [title, setTitle] = useState("")
+    // const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [attachement, setAttachement] = useState("")
-    const [likes, setLikes] = useState("")
+    // const [likes, setLikes] = useState("")
 
     const handleSubmit = e => {
         e.preventDefault()
 
         const data = { 
-            title: title, 
+            // title: title, 
             content: content,
             attachement: attachement, 
-            likes: 1
+            // likes: 1
         }
 
 
@@ -40,27 +41,23 @@ function Post() {
     return (
         <div className="App-body">
             <form className="App-post" onSubmit={e => handleSubmit(e)}>
-                <h1>Publier :</h1>
-                <label>
-                    Titre :
+                <h1>Exprimez-vous :</h1>
+                {/* <label>
                     <br/>
-                    <input type="text" name="titre" value={title} onChange={e => setTitle(e.target.value)}></input>
-                </label>
+                    <input type="text" name="titre" placeholder="Titre" value={title} onChange={e => setTitle(e.target.value)}></input>
+                </label> */}
                 <label>
-                    Content :
                     <br/>
-                    <input type="text" name="message" value={content} onChange={e => setContent(e.target.value)}></input>
+                    <textarea type="text" name="message" placeholder="Quoi de neuf ?" className="textarea" maxLength="250" value={content} onChange={e => setContent(e.target.value)}></textarea>
                 </label>
-                <label>
-                    Votre image :
+                <input type="file" name="image"   accept=".jpg" placeholder="Image" className="input-file" value={attachement} onChange={e => setAttachement(e.target.value)}></input>
+                <label htmlFor="attachement" className="file-cover">
+                <FontAwesomeIcon icon={faImage} className="file-icon"></FontAwesomeIcon>
+                </label>
+                {/* <label>
                     <br/>
-                    <input type="text" name="image" value={attachement} onChange={e => setAttachement(e.target.value)}></input>
-                </label>
-                <label>
-                    Likes
-                    <br/>
-                    <input type="text" name="likes" value={likes} onChange={e => setLikes(e.target.value)}></input>
-                </label>
+                    <input type="text" name="likes" placeholder="Likes" value={likes} onChange={e => setLikes(e.target.value)}></input>
+                </label> */}
                 <button className="login-button">Publier</button>
             </form>
         </div>
