@@ -5,12 +5,12 @@ const jwt = require('jsonwebtoken');
 //Création d'un post
 exports.createPost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);//Décodage du token, vérification du token avec la clef secrète
-    const UserId = decodedToken.userId;//Récupération de l'userId dans le TOKEN
+    const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
+    const UserId = decodedToken.userId;
     models.Post.create ({
         // id: 
         UserId: UserId, 
-        title: req.body.title,
+        // title: req.body.title,
         content: req.body.content,
         attachement: req.body.attachement,
         likes: req.body.likes,
@@ -22,17 +22,20 @@ exports.createPost = (req, res, next) => {
 };
 
 
-//Controller pour modifier une sauce
 exports.modifyPost = (req, res, next) => {
 
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
     const UserId = decodedToken.userId;
-    console.log(UserId);
+    const post = models.Post.findOne({
+        where: {
+            id: req.params.id,
+        },
+    })
     models.Post.update({
-        title: req.body.title,
-        // content: req.body.content,
-        // attachement: req.body.attachement,
+        // title: req.body.title,
+        content: req.body.content ? req.body.content: post.content,
+        attachement: req.body.attachement ? req.body.attachement: post.attachement
     },
         {
             where: {
@@ -46,7 +49,6 @@ exports.modifyPost = (req, res, next) => {
 
 
 exports.deletePost = (req, res, next) => {
-    // console.log(req.body.decodedToken);
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
     const UserId = decodedToken.userId;
@@ -62,7 +64,13 @@ exports.deletePost = (req, res, next) => {
 
 
 exports.getAllPosts = (req, res, next) => {
-    models.Post.findAll()
+    models.Post.findAll({  include: [
+        {
+          model: models.User,
+          attributes: ['firstName', 'lastName', 'id'],
+        },
+      ],
+    })
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json({ error }));
 }
