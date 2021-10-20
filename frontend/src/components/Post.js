@@ -48,7 +48,7 @@ function Post() {
                 </label> */}
                 <label>
                     <br/>
-                    <textarea type="text" name="message" placeholder="Quoi de neuf ?" className="textarea" maxLength="250" value={content} onChange={e => setContent(e.target.value)}></textarea>
+                    <textarea type="text" name="message" placeholder="Quoi de neuf ${User.firstName}?" className="textarea" maxLength="250" value={content} onChange={e => setContent(e.target.value)}></textarea>
                 </label>
                 <input type="file" name="image"   accept=".jpg" placeholder="Image" className="input-file" value={attachement} onChange={e => setAttachement(e.target.value)}></input>
                 <label htmlFor="attachement" className="file-cover">
