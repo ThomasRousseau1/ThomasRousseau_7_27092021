@@ -4,19 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 function Post() {
-    // const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [attachement, setAttachement] = useState("")
-    // const [likes, setLikes] = useState("")
 
     const handleSubmit = e => {
         e.preventDefault()
 
-        const data = { 
-            // title: title, 
+        const data = {  
             content: content,
             attachement: attachement, 
-            // likes: 1
         }
 
 
@@ -35,17 +31,12 @@ function Post() {
         .catch( (error) => {
             alert(error)
         })
-        console.log(data);
     }
 
     return (
         <div className="App-body">
             <form className="App-post" onSubmit={e => handleSubmit(e)}>
                 <h1>Exprimez-vous :</h1>
-                {/* <label>
-                    <br/>
-                    <input type="text" name="titre" placeholder="Titre" value={title} onChange={e => setTitle(e.target.value)}></input>
-                </label> */}
                 <label>
                     <br/>
                     <textarea type="text" name="message" placeholder="Quoi de neuf ${User.firstName}?" className="textarea" maxLength="250" value={content} onChange={e => setContent(e.target.value)}></textarea>
@@ -54,10 +45,6 @@ function Post() {
                 <label htmlFor="attachement" className="file-cover">
                 <FontAwesomeIcon icon={faImage} className="file-icon"></FontAwesomeIcon>
                 </label>
-                {/* <label>
-                    <br/>
-                    <input type="text" name="likes" placeholder="Likes" value={likes} onChange={e => setLikes(e.target.value)}></input>
-                </label> */}
                 <button className="login-button">Publier</button>
             </form>
         </div>
