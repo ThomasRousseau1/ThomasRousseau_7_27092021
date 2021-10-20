@@ -5,7 +5,6 @@ import PostList from './PostList';
 function Home() {
 
     const [posts, setPosts] = useState(null);
-    console.log(posts);
 
     useEffect(() => {
         fetch('http://localhost:3000/api/posts', 
