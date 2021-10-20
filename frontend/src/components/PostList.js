@@ -4,7 +4,7 @@ import { faThumbsUp, faTrash, faWrench, faImage } from '@fortawesome/free-solid-
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment';
 import '../styles/Post.css'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const PostList = ({ posts, test }) => {
     
@@ -32,7 +32,7 @@ const [visible, setVisible] = useState(false);
 // const [title, modifyTitle] = useState("")
 const [content, modifyContent] = useState("")
 const [attachement, modifyAttachement] = useState("")
-const [likes, modifyLikes] = useState("")
+// const [likes, modifyLikes] = useState("")
 
 // const formData = new FormData();
 
@@ -52,6 +52,67 @@ const modifyPost = (e, id) => {
     fetch('http://localhost:3000/api/posts/' + id, {
     method: 'PUT',
     body: JSON.stringify(data),
+    headers: {
+        Authorization:'Bearer '+localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+    },
+    })
+    .then(res => res.json())
+    .then(() => {
+            window.location.href = "/home";
+        })
+    .catch( (error) => {
+        alert(error)
+        console.log(error)
+    })
+}
+ 
+
+
+//Get all comments
+const getAllComments = () => {
+    fetch('http://localhost:3000/api/comments/', {
+    headers: { 
+        Authorization:'Bearer '+localStorage.getItem('token'),
+        'Content-Type': 'application/json',
+    },})
+    .then(res => res.json())  
+    .then(data => setComments(data))}
+
+const [listComments, setComments] = useState([]);
+useEffect ( getAllComments, [])
+
+
+
+//Create a comment
+const [comment, newComment] = useState("")
+const addComment = (e, id) => {
+    e.preventDefault()
+
+    const data = {comment: comment}
+    fetch('http://localhost:3000/api/comments/' + id, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            Authorization:'Bearer '+localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then((res) => res.json())
+    .then(() => {
+        getAllComments();
+    })
+    .catch( (error) => {
+        alert(error)
+        console.log(error)
+    })
+}
+
+
+const deleteComment = (e, id) => {
+    e.preventDefault()
+    fetch('http://localhost:3000/api/comments/' + id, {
+    method: 'DELETE',
     headers: {
         Authorization:'Bearer '+localStorage.getItem('token'),
         'Content-Type': 'application/json'
@@ -100,7 +161,30 @@ return (
                     <p>J'aime</p>
                     <p>Commenter</p>
                 </div>
-            </div><div className="modify-post">
+            
+                <form  onSubmit={e => addComment(e, post.id)}>
+                <label>
+                    <br/>
+                    <textarea type="text" name="comment" placeholder="Votre commentaire..." maxLength="250" value={comment.id} onChange={e => newComment(e.target.value)}></textarea>
+                </label>
+        
+                <button type="submit" className="login-button">Commenter</button>
+            </form>
+            <div>
+                { listComments.filter((comment) => comment.PostId === post.id).map((comment, id) => {
+                    return <div key={id} className="comments-container">
+                            <div className="comments-infos">
+                            <p className="comments-user">{comment.User.firstName} {comment.User.lastName}</p>
+                            <p className="comments-date">Le <Moment format="D MMM YYYY">{comment.createdAt}</Moment></p>
+                        </div>
+                        <div className="comments-content">
+                            {comment.comment}
+                            <FontAwesomeIcon icon={faTrash} className="deleteComment-icon" onClick={e => deleteComment(e, comment.id)}></FontAwesomeIcon>
+                        </div>
+                    </div> 
+                })}
+            </div>  
+            <div className="modify-post">
                     {visible && focusPost === post.id &&
                         <form className="modify-form" onSubmit={e => modifyPost(e, post.id)}>
                             <h2 className="modify-title">Modifiez la publication</h2>
@@ -109,7 +193,7 @@ return (
                                     <input type="text" name="titre" placeholder="Titre" value={title} onChange={e => modifyTitle(e.target.value)}></input>
                                 </label> */}
                                 <label htmlFor="content">
-                                    <textarea type="text" name="message" placeholder="Contenu" value={content} onChange={e => modifyContent(e.target.value)}></textarea>
+                                    <textarea type="text" name="message" placeholder="Contenu" className="modify-textarea" value={content} onChange={e => modifyContent(e.target.value)}></textarea>
                                 </label>
                                     <input type="file" name="image" accept=".jpg" placeholder="Image" value={attachement} onChange={e => modifyAttachement(e.target.files[0])}></input>
                                     <label htmlFor="attachement" className="file-cover">
@@ -121,7 +205,9 @@ return (
                             </div>
                             <button className="login-button">Enregistrer</button>
                         </form>}
-                </div></>
+                </div>  
+            </div>           
+                </>
         ))}
 
     </div>
