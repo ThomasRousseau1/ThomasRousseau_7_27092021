@@ -8,6 +8,12 @@ exports.createPost = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
     const UserId = decodedToken.userId;
     models.Post.create ({
+        // include: [
+        //     {
+        //       model: models.User,
+        //       attributes: ['firstName', 'lastName', 'id'],
+        //     },
+        //   ],
         // id: 
         UserId: UserId, 
         // title: req.body.title,
@@ -52,6 +58,9 @@ exports.deletePost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
     const UserId = decodedToken.userId;
+    models.Comment.destroy({ //Pour suppr le post avec le comment
+        where: { PostId: req.params.id }
+    })
     models.Post.destroy({
         where: {
           id: req.params.id,
@@ -70,6 +79,7 @@ exports.getAllPosts = (req, res, next) => {
           attributes: ['firstName', 'lastName', 'id'],
         },
       ],
+      order: [["createdAt", "DESC"]]
     })
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json({ error }));
