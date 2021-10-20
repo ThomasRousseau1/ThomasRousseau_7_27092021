@@ -29,15 +29,8 @@ const deletePost = (e, id) => {
 
 const [focusPost, setFocusPost] = useState(-1);
 const [visible, setVisible] = useState(false);
-// const [title, modifyTitle] = useState("")
 const [content, modifyContent] = useState("")
 const [attachement, modifyAttachement] = useState("")
-// const [likes, modifyLikes] = useState("")
-
-// const formData = new FormData();
-
-// formData.append("file", { uri: "file://path/to/image.png", type: "image/png" });
-// console.log(formData);
 
 const modifyPost = (e, id) => {
 
@@ -189,9 +182,6 @@ return (
                         <form className="modify-form" onSubmit={e => modifyPost(e, post.id)}>
                             <h2 className="modify-title">Modifiez la publication</h2>
                             <div className="modify-inputs">
-                                {/* <label>
-                                    <input type="text" name="titre" placeholder="Titre" value={title} onChange={e => modifyTitle(e.target.value)}></input>
-                                </label> */}
                                 <label htmlFor="content">
                                     <textarea type="text" name="message" placeholder="Contenu" className="modify-textarea" value={content} onChange={e => modifyContent(e.target.value)}></textarea>
                                 </label>
@@ -199,9 +189,6 @@ return (
                                     <label htmlFor="attachement" className="file-cover">
                                     <FontAwesomeIcon icon={faImage} className="file-icon"></FontAwesomeIcon>
                                 </label>
-                                {/* <label>
-                                    <input type="text" name="likes" placeholder="Likes" value={likes} onChange={e => modifyLikes(e.target.value)}></input>
-                                </label> */}
                             </div>
                             <button className="login-button">Enregistrer</button>
                         </form>}
