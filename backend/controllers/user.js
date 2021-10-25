@@ -48,6 +48,34 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+exports.modifyAccount = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
+    const UserId = decodedToken.userId;
+
+    if (UserId != null) {
+        const user = models.User.findOne({
+            where: {
+                id: UserId
+            }
+        })
+            .then(() => {
+                models.User.update({
+                    firstName: req.body.firstName ? req.body.firstname : user.firstName,
+                    lastName: req.body.lastName ? req.body.lastName : user.lastName,
+                    email: req.body.email ? req.body.email : user.email,
+                }, {
+                    where: { id: UserId }
+                })
+                .then(() => res.status(200).json({ message: 'Profil modifié' }))
+                .catch(error => res.status(400).json({ error }))
+            })
+        
+    }
+}
+
+
+
 exports.deleteAccount = (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
