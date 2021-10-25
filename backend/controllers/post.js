@@ -1,12 +1,22 @@
 const models = require('../models');
 const { Post } = require('../models/post');
 const jwt = require('jsonwebtoken');
+// const fs = require('fs');
 
 //Création d'un post
 exports.createPost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
     const UserId = decodedToken.userId;
+    //Images
+    let imageUrl = req.body.file
+    if (imageUrl) {
+        imageUrl = `${req.protocol}://${req.get('host')}/images/${
+            req.file.filename
+          }`
+    } else {
+      imageUrl = null
+    }
     models.Post.create ({
         // include: [
         //     {
@@ -18,7 +28,8 @@ exports.createPost = (req, res, next) => {
         UserId: UserId, 
         // title: req.body.title,
         content: req.body.content,
-        attachement: req.body.attachement,
+        attachement: imageUrl,
+        // attachement: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,//Générer l'url de l'image: le protocole, le nom d'hôte /image/ et le nom de fichier 
         likes: req.body.likes,
         createdAt: Date.now(),
         updatedAt: Date.now()
