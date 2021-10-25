@@ -25,7 +25,7 @@ function Signup() {
     .then(res => res.data)
 
     .then(() => {
-      window.location.href = "/home";
+      window.location.href = "/login";
   })
   .catch( (error) => {
       alert(error)
