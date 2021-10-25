@@ -30,7 +30,12 @@ exports.login = (req, res, next) => {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });                 
                     }
                     res.status(200).json({//Si la comparaison est valable, renvoi d'un userid et d'un token à l'utilisateur
-                        userId: user.id,
+                        user: {
+                            id: user.id,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email
+                        },
                         token: jwt.sign(                    
                                { userId: user.id },//Données qu'on veut encoder dans le token(payload)   
                                process.env.JWT_SIGN_SECRET,//Clef secrète pour l'encodage
@@ -42,3 +47,38 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
 };
+
+exports.deleteAccount = (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
+    const UserId = decodedToken.userId;
+
+    if (UserId != null) {
+        models.User.findOne({
+            where: {
+                id: UserId
+            }
+        })
+        .then(user => {
+            if (user != null) {
+                models.Post.destroy({
+                    where: { UserId: user.id }
+                })
+                .then(() => {
+                    console.log("Toutes les publications de l'utilisateur ont été supprimées")
+                })
+                models.Comment.destroy({
+                    where: { UserId: user.id }
+                })
+                .then(() => {
+                    console.log("Tous les commentaires de l'utilisateur ont été supprimés")
+                })
+                models.User.destroy({
+                    where: { id: user.id }
+                })
+                .then(() => res.status(200).json({ message: "Compte supprimé !"}))
+                .catch(error => res.status(500).json(error))
+            }
+        })
+    }
+}
