@@ -1,7 +1,7 @@
 const express = require('express');
 const { Sequelize } = require('sequelize');
 //Pour accéder au chemin de système de fichiers, les images
-// const path = require('path');
+const path = require('path');
 //Appel du module Helmet qui permet d'améliorer la sécurité de l'appli en sécurisant les requêtes http, les entêtes, empêcher le détournement de clics 
 const helmet = require('helmet');
 // const cors = require('cors');
@@ -51,10 +51,15 @@ app.use(helmet());// app.use(nocache());//Permet de désactiver la mise en cache
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
 
-// app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/comments', commentRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
+
+app.use(function (err, req, res, next) {
+    console.log('This is the invalid field ->', err.field)
+    next(err)
+  })
 
 
 //Exporter cette const pour y accéder depuis les autres fichiers dont le serveur node
