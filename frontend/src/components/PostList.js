@@ -1,12 +1,15 @@
 import '../styles/Post.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faTrash, faWrench, faImage } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faWrench, faImage } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment';
 import '../styles/Post.css'
 import React, { useState, useEffect } from "react";
 
 const PostList = ({ posts, test }) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user['id']
+    console.log(userId)
     
 const deletePost = (e, id) => {
     e.preventDefault()
@@ -33,7 +36,6 @@ const [content, modifyContent] = useState("")
 const [attachement, modifyAttachement] = useState("")
 
 const modifyPost = (e, id) => {
-
     const data = { 
         // title: title, 
         content: content,
@@ -126,7 +128,7 @@ return (
     <div className="App-posts">
         <h2>{ test }</h2>
         {posts.map((post) => (
-            <><div className="post"> 
+            <><div key={posts.id} className="post"> 
             {/* revoir le parent  */}
                 <div className="post-infos">
                     <div className="post-name">
@@ -138,21 +140,25 @@ return (
                     <Moment format="D MMM YYYY">{post.createdAt}</Moment>
                     </div>
                     </div>
-                    <div className="post-actions">
-                        <FontAwesomeIcon icon={faWrench} className="deletePost-icon" onClick={() => { setVisible(!visible); setFocusPost(post.id); } }>{visible ? 'Annulez votre modification!' : 'Modifiez votre publication'}</FontAwesomeIcon>
-                        <FontAwesomeIcon icon={faTrash} className="deletePost-icon" onClick={e => deletePost(e, post.id)}></FontAwesomeIcon>
-                    </div>
+                    {(userId === post.User.id && 
+                        <div className="post-actions">
+                            <FontAwesomeIcon icon={faWrench} className="deletePost-icon" onClick={() => { setVisible(!visible); setFocusPost(post.id); } }>{visible ? 'Annulez votre modification!' : 'Modifiez votre publication'}</FontAwesomeIcon>
+                            <FontAwesomeIcon icon={faTrash} className="deletePost-icon" onClick={e => deletePost(e, post.id)}></FontAwesomeIcon>
+                        </div>     
+                    )}
                 </div>
                 {/* <p><strong>{post.title}</strong></p> */}
                 <p>{post.content}</p>
                 <div>{post.attachement}</div>
-                <div className="post-likes">
+                {/* <div className="post-likes">
                     <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                    {/* <p>{post.likes}</p> */}
+                    <p>{post.likes}</p>
                 </div>
                 <div className="Likes-comments">
                     <p>J'aime</p>
                     <p>Commenter</p>
+                </div> */}
+                <div className="post-border">
                 </div>
             
                 <form  onSubmit={e => addComment(e, post.id)}>
@@ -172,8 +178,10 @@ return (
                         </div>
                         <div className="comments-content">
                             {comment.comment}
+                            {(userId === comment.User.id && 
                             <FontAwesomeIcon icon={faTrash} className="deleteComment-icon" onClick={e => deleteComment(e, comment.id)}></FontAwesomeIcon>
-                        </div>
+                            )}
+                            </div>
                     </div> 
                 })}
             </div>  
