@@ -33,14 +33,14 @@ const deletePost = (e, id) => {
 const [focusPost, setFocusPost] = useState(-1);
 const [visible, setVisible] = useState(false);
 const [content, modifyContent] = useState("")
-const [attachement, modifyAttachement] = useState("")
+const [attachement, modifyAttachement] = useState(null)
 
 const modifyPost = (e, id) => {
     const data = { 
         // title: title, 
         content: content,
         attachement: attachement, 
-        likes: 1
+        // likes: 1
     }
 
     e.preventDefault()
@@ -49,7 +49,7 @@ const modifyPost = (e, id) => {
     body: JSON.stringify(data),
     headers: {
         Authorization:'Bearer '+localStorage.getItem('token'),
-        'Content-Type': 'application/json'
+        'Content-Type': 'multipart/form-data'
     },
     })
     .then(res => res.json())
@@ -149,7 +149,7 @@ return (
                 </div>
                 {/* <p><strong>{post.title}</strong></p> */}
                 <p>{post.content}</p>
-                <div>{post.attachement}</div>
+                    <img className="post-image" src={post.attachement}/>
                 {/* <div className="post-likes">
                     <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
                     <p>{post.likes}</p>
@@ -188,17 +188,18 @@ return (
             <div className="modify-post">
                     {visible && focusPost === post.id &&
                         <form className="modify-form" onSubmit={e => modifyPost(e, post.id)}>
-                            <h2 className="modify-title">Modifiez la publication</h2>
+                            <h2 className="modify-title">Modifiez votre publication</h2>
                             <div className="modify-inputs">
-                                <label htmlFor="content">
-                                    <textarea type="text" name="message" placeholder="Contenu" className="modify-textarea" value={content} onChange={e => modifyContent(e.target.value)}></textarea>
+                                <label htmlFor="content" className="modify-label">
+                                    <textarea type="text" name="message" placeholder={post.content} className="modify-textarea" value={content} onChange={e => modifyContent(e.target.value)}></textarea>
                                 </label>
-                                    <input type="file" name="image" accept=".jpg" placeholder="Image" value={attachement} onChange={e => modifyAttachement(e.target.files[0])}></input>
-                                    <label htmlFor="attachement" className="file-cover">
-                                    <FontAwesomeIcon icon={faImage} className="file-icon"></FontAwesomeIcon>
+                                <input type="file" name="attachement" className="input-file" value={attachement} onChange={(e) => modifyAttachement(e.target.files[0])}></input>
+                                <label htmlFor="attachement" className="file-cover">
+                                <FontAwesomeIcon icon={faImage} className="file-icon"></FontAwesomeIcon>
+                                    <img className="post-image" src={post.attachement}/>
                                 </label>
                             </div>
-                            <button className="login-button">Enregistrer</button>
+                            <button className="login-button" onClick={modifyPost}>Enregistrer</button>
                         </form>}
                 </div>  
             </div>           
