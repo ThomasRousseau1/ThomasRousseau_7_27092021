@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import '../styles/Login.css'
 import {Link} from 'react-router-dom'
-// import { useHistory } from 'react-router-dom'
 import logo2 from '../assets/icon-above-font.png'
 
 
@@ -31,13 +30,13 @@ function Login() {
         (res) => {
             console.log(res)
             localStorage.setItem('token', res.token);
+            localStorage.setItem('user', JSON.stringify(res.user))
         })
           .then(() => {
             window.location.href = "/home";
         })
         .catch( (error) => {
-            alert(error)
-            console.log(error)
+            window.alert('Modification des informations non prises en compte')
         })
         console.log(data);
     }
