@@ -42,7 +42,8 @@ exports.login = (req, res, next) => {
                             id: user.id,
                             firstName: user.firstName,
                             lastName: user.lastName,
-                            email: user.email
+                            email: user.email,
+                            attachement: user.attachement
                         },
                         token: jwt.sign(                    
                                { userId: user.id },//Données qu'on veut encoder dans le token(payload)   
