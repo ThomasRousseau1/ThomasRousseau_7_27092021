@@ -1,7 +1,6 @@
 import '../styles/Post.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faWrench, faImage } from '@fortawesome/free-solid-svg-icons'
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment';
 import '../styles/Post.css'
 import React, { useState, useEffect } from "react";
@@ -131,8 +130,8 @@ return (
                     <div className="post-name">
                         {/* faire condition pour user picture ou non */}
                         <div>
-                            <img src={post.User.attachement} className="post-picture" />
-                        <FontAwesomeIcon icon={faUserCircle} className="post-user"></FontAwesomeIcon>
+                            <img src={post.User.attachement} className="post-picture" alt=""/>
+                        {/* <FontAwesomeIcon icon={faUserCircle} className="post-user"></FontAwesomeIcon> */}
                         </div>
                     <div>
                     <p><strong>{post.User.firstName} {post.User.lastName}</strong></p>
@@ -148,7 +147,7 @@ return (
                 </div>
                 {/* <p><strong>{post.title}</strong></p> */}
                 <p>{post.content}</p>
-                    <img className="post-image" src={post.attachement}/>
+                    <img className="post-image" src={post.attachement} alt=""/>
                 {/* <div className="post-likes">
                     <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
                     <p>{post.likes}</p>
@@ -196,7 +195,7 @@ return (
                                 <input type="file" name="attachement" className="input-file" onChange={(e) => modifyAttachement(e.target.files[0])}></input>
                                 <label htmlFor="attachement" className="file-cover">
                                 <FontAwesomeIcon icon={faImage} className="file-icon"></FontAwesomeIcon>
-                                    <img className="post-image" src={post.attachement}/>
+                                    <img className="post-image" src={post.attachement} alt=""/>
                                 </label>
                             </div>
                             <button className="login-button" onClick={modifyPost}>Enregistrer</button>
