@@ -3,8 +3,8 @@ import Banner from './Banner'
 import Signup from './Signup'
 import Login  from './Login'
 import Home from './Home'
-import ProfileTest from './ProfileTest.js'
 import Post from './Post'
+import userAccount from './UserAccount'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 
@@ -21,7 +21,7 @@ function App() {
       <Route path="/signup" exact component={Signup} />
       <Route path="/home" exact component={Post} />
       <Route path="/home" exact component={Home} />
-      <Route path="/profile" exact component={ProfileTest} />
+      <Route path="/profile" exact component={userAccount} />
     </div>
       </div>
     </Router>

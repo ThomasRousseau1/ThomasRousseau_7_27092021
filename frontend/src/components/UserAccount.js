@@ -6,11 +6,13 @@ import { faUserCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 function UserAccount() {
     const user = JSON.parse(localStorage.getItem('user'))
+    const[image, modifyImage] = useState(null)
     const [firstName, modifyFirstName] = useState("")
     const [lastName, modifyLastName] = useState("")
     const [email, modifyEmail] = useState("")
     const modifyAccount = (e, id) => {
-        const data = { 
+        const data = {
+            attachement: image ? image : user.image, 
             firstName: firstName ? firstName : user.firstName,
             lastName: lastName ? lastName : user.lastName,
             email: email ? email : user.email
@@ -67,6 +69,7 @@ function UserAccount() {
         
         <div className="App-connect">
             <form className="form">
+            <input type="file" name="attachement"   onChange={(e) => modifyImage(e.target.files[0])}></input>
             <FontAwesomeIcon icon={faUserCircle} className="connexion-feed"><img src="" className="profile-img" alt="Votre avatar"/></FontAwesomeIcon>
                 <h2>Vos informations</h2>
                 Votre prénom :

@@ -3,6 +3,14 @@ const jwt = require('jsonwebtoken');
 const models = require('../models');
 
 exports.signup = (req, res, next) => {
+    let imageUrl = req.file
+    if (imageUrl) {
+        imageUrl = `${req.protocol}://${req.get('host')}/images/${
+            req.file.filename
+          }`
+    } else {
+      imageUrl = null
+    }
     bcrypt.hash(req.body.password, 10)//ajout du mdp du corps de la requête venant du frontend
         .then(hash => {
             models.User.create({
@@ -10,7 +18,7 @@ exports.signup = (req, res, next) => {
             lastName: req.body.lastName,
             email: req.body.email,
             password: hash,
-            image: req.body.image
+            attachement: imageUrl
             })
                 .then(() => res.status(201).json({ message: 'Utilisateur créé '}))
                 .catch( error => res.status(400).json({ error }));
@@ -61,7 +69,8 @@ exports.modifyAccount = (req, res, next) => {
         })
             .then(() => {
                 models.User.update({
-                    firstName: req.body.firstName ? req.body.firstname : user.firstName,
+                    //ajouter image
+                    firstName: req.body.firstName ? req.body.firstName : user.firstName,
                     lastName: req.body.lastName ? req.body.lastName : user.lastName,
                     email: req.body.email ? req.body.email : user.email,
                 }, {

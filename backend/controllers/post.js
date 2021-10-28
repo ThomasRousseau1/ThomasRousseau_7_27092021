@@ -3,13 +3,15 @@ const { Post } = require('../models/post');
 const jwt = require('jsonwebtoken');
 // const fs = require('fs');
 
+
+
 //Création d'un post
 exports.createPost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
     const UserId = decodedToken.userId;
     //Images
-    let imageUrl = req.body.file
+    let imageUrl = req.file
     if (imageUrl) {
         imageUrl = `${req.protocol}://${req.get('host')}/images/${
             req.file.filename
@@ -17,6 +19,9 @@ exports.createPost = (req, res, next) => {
     } else {
       imageUrl = null
     }
+    models.User.findOne({
+        where: { id: UserId }
+    })
     models.Post.create ({
         // include: [
         //     {
@@ -49,10 +54,18 @@ exports.modifyPost = (req, res, next) => {
             id: req.params.id,
         },
     })
+    let imageUrl = req.file
+    if (imageUrl) {
+        imageUrl = `${req.protocol}://${req.get('host')}/images/${
+            req.file.filename
+          }`
+    } else {
+      imageUrl = post.attachement
+    }
     models.Post.update({
         // title: req.body.title,
         content: req.body.content ? req.body.content: post.content,
-        attachement: req.body.attachement ? req.body.attachement: post.attachement
+        attachement: imageUrl
     },
         {
             where: {
@@ -87,7 +100,7 @@ exports.getAllPosts = (req, res, next) => {
     models.Post.findAll({  include: [
         {
           model: models.User,
-          attributes: ['firstName', 'lastName', 'id'],
+          attributes: ['firstName', 'lastName', 'id', 'attachement'],
         },
       ],
       order: [["createdAt", "DESC"]]
@@ -95,5 +108,3 @@ exports.getAllPosts = (req, res, next) => {
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json({ error }));
 }
-
-//PARTIE LIKES

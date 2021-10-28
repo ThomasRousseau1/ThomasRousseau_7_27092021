@@ -11,3 +11,59 @@
     height: 8rem;
     margin: 2.3rem;
 }
+
+.connexion-search {
+    display: flex;
+    padding: 3rem;
+}
+    
+.connexion-feed {
+    font-size: 2rem;
+    margin-left: 2rem;
+}
+    
+.connexion-feed:hover {
+    color: #fd2d01;
+    cursor: pointer;
+}
+    
+    
+.connexion-banner {
+    display: flex;
+    width: 15rem;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4rem 0;
+    align-items: center;
+    font-family: 'Yaldevi', sans-serif;
+}
+    
+.connexion-img {
+    background: darkgrey;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+}
+    
+.connexion-user {
+    color: #fff;
+    font-size: 3.5rem;
+}
+    
+.connexion-disconnect {
+    font-weight: bold;
+    font-family: 'Yaldevi', sans-serif;
+    cursor: pointer;
+}
+
+.connexion-disconnect:hover {
+    opacity: 0.6;
+}
+
+.connexion-firstName {
+    padding: 0 1rem 0 1rem;
+    font-weight: bold;
+    color: #000;
+}

@@ -5,6 +5,7 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment';
 import '../styles/Post.css'
 import React, { useState, useEffect } from "react";
+import axios from 'axios'
 
 const PostList = ({ posts, test }) => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -36,32 +37,28 @@ const [content, modifyContent] = useState("")
 const [attachement, modifyAttachement] = useState(null)
 
 const modifyPost = (e, id) => {
-    const data = { 
-        // title: title, 
-        content: content,
-        attachement: attachement, 
-        // likes: 1
-    }
+    let formData = new FormData();
+    formData.append('content', content);
+    formData.append('attachement', attachement);
 
-    e.preventDefault()
-    fetch('http://localhost:3000/api/posts/' + id, {
-    method: 'PUT',
-    body: JSON.stringify(data),
-    headers: {
-        Authorization:'Bearer '+localStorage.getItem('token'),
-        'Content-Type': 'multipart/form-data'
-    },
-    })
-    .then(res => res.json())
-    .then(() => {
-            window.location.href = "/home";
+    axios({
+        method: 'put',
+        url: 'http://localhost:3000/api/posts/' + id,
+        data: formData,
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then((res) => {
+          console.log(res)
+          window.location.reload()
         })
-    .catch( (error) => {
-        alert(error)
-        console.log(error)
-    })
-}
- 
+        .catch((err) => {
+          console.log(err)
+          window.alert('Publication impossible')
+        })
+    }
 
 
 //Get all comments
@@ -132,7 +129,9 @@ return (
             {/* revoir le parent  */}
                 <div className="post-infos">
                     <div className="post-name">
+                        {/* faire condition pour user picture ou non */}
                         <div>
+                            <img src={post.User.attachement} className="post-picture" />
                         <FontAwesomeIcon icon={faUserCircle} className="post-user"></FontAwesomeIcon>
                         </div>
                     <div>
@@ -164,7 +163,8 @@ return (
                 <form  onSubmit={e => addComment(e, post.id)}>
                 <label>
                     <br/>
-                    <textarea type="text" name="comment" placeholder="Votre commentaire..." maxLength="250" value={comment.id} onChange={e => newComment(e.target.value)}></textarea>
+                    {/* Voir pour donner un aspect de textarea */}
+                    <input type="text" name="comment" placeholder="Votre commentaire..." maxLength="250" value={comment.id} onChange={e => newComment(e.target.value)}></input>
                 </label>
         
                 <button type="submit" className="login-button">Commenter</button>
@@ -191,9 +191,9 @@ return (
                             <h2 className="modify-title">Modifiez votre publication</h2>
                             <div className="modify-inputs">
                                 <label htmlFor="content" className="modify-label">
-                                    <textarea type="text" name="message" placeholder={post.content} className="modify-textarea" value={content} onChange={e => modifyContent(e.target.value)}></textarea>
+                                    <textarea type="text" name="message" placeholder="Modifiez votre publication" className="modify-textarea" defaultValue={post.content} onChange={e => modifyContent(e.target.value)}></textarea>
                                 </label>
-                                <input type="file" name="attachement" className="input-file" value={attachement} onChange={(e) => modifyAttachement(e.target.files[0])}></input>
+                                <input type="file" name="attachement" className="input-file" onChange={(e) => modifyAttachement(e.target.files[0])}></input>
                                 <label htmlFor="attachement" className="file-cover">
                                 <FontAwesomeIcon icon={faImage} className="file-icon"></FontAwesomeIcon>
                                     <img className="post-image" src={post.attachement}/>

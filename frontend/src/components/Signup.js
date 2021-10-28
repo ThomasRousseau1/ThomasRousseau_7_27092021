@@ -2,35 +2,59 @@ import  React, { useState } from 'react'
 import '../styles/Signup.css'
 import {Link} from 'react-router-dom'
 import logo2 from '../assets/icon-above-font.png'
+import axios from 'axios'
 
 function Signup() {
     const [firstName, newFirstName] = useState("")
     const [lastName, newLastName] = useState("")
     const [email, newEmail] = useState("")
     const [password, newPassword] = useState("")
-    const [image, newImage] = useState("")
+    const [attachement, newAttachement] = useState(null)
 
 
     const handleSubmit = e => {
         e.preventDefault()
-        const data = {firstName: firstName, lastName: lastName, email: email, password: password, image: image}
+        // const data = {firstName: firstName, lastName: lastName, email: email, password: password, image: image}
+        let formData = new FormData();
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('attachement', attachement);
+        axios({
+            method: 'post',
+            url: 'http://localhost:3000/api/users/signup',
+            data: formData,
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then(res => console.log(res))
 
-        fetch('http://localhost:3000/api/users/signup', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json',
+          .then(() => {
+            window.location.href = "/login";
+        })
+        .catch( (error) => {
+            alert(error)
+        })
         }
-    })
-    .then(res => res.data)
+    
+//         fetch('http://localhost:3000/api/users/signup', {
+//         method: 'POST',
+//         body: JSON.stringify(data),
+//         headers: {
+//             'Content-Type': 'application/json',
+//         }
+//     })
+//     .then(res => res.data)
 
-    .then(() => {
-      window.location.href = "/login";
-  })
-  .catch( (error) => {
-      alert(error)
-  })
-    }
+//     .then(() => {
+//       window.location.href = "/login";
+//   })
+//   .catch( (error) => {
+//       alert(error)
+//   })
+//     }
 
 
 
@@ -50,7 +74,7 @@ function Signup() {
                 Votre mot de passe :
                 <input type="password" placeholder="Strongestpasswordever8" className="input" value={password} onChange={e => newPassword(e.target.value)}></input>
                 Votre image : 
-                <input type="text" placeholder="Your image" className="input" value={image} onChange={e => newImage(e.target.value)}></input>
+                <input type="file" name="attachement" placeholder="image" className="input" onChange={(e) => newAttachement(e.target.files[0])}></input>
                 <button className="login-button">Créer mon compte</button>
             </form>
             <p>Vous avez déjà un compte ? <Link to="/login">Se connecter</Link></p>
