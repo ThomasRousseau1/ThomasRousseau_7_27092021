@@ -3,6 +3,7 @@ import '../styles/Signup.css'
 import {Link} from 'react-router-dom'
 import logo2 from '../assets/icon-above-font.png'
 import axios from 'axios'
+import { regExpNames, regExpEmail, regExpPassword } from '../utils/Regex.js'
 
 function Signup() {
     const [firstName, newFirstName] = useState("")
@@ -11,52 +12,85 @@ function Signup() {
     const [password, newPassword] = useState("")
     const [attachement, newAttachement] = useState(null)
 
+    const [invalidFirstName, setInvalidFirstName] = useState(false)
+    const [invalidLastName, setInvalidLastName] = useState(false)
+    const [invalidEmail, setInvalidEmail] = useState(false)
+    const [invalidPassword, setInvalidPassword] = useState(false)
+    const [invalidAttachement, setInvalidAttachement] = useState(false)
+
+    function formValidation() {
+        let validation = true 
+
+        //Validation firstName
+        if(!regExpNames.test(firstName)) {
+            setInvalidFirstName(true)
+            validation = false
+        } else {
+            setInvalidFirstName(false)
+        }
+        
+        //Validation lastName
+        if(!regExpNames.test(lastName)) {
+            setInvalidLastName(true)
+            validation = false
+        } else {
+            setInvalidLastName(false)
+        }
+
+        //Validation lastName
+        if(!regExpEmail.test(email)) {
+            setInvalidEmail(true)
+            validation = false
+        } else {
+            setInvalidEmail(false)
+        }
+        //Validation lastName
+        if(!regExpPassword.test(password)) {
+            setInvalidPassword(true)
+            validation = false
+        } else {
+            setInvalidPassword(false)
+        }
+
+        // Validation attachement
+        if(!attachement) {
+            setInvalidAttachement(true)
+            validation = false
+        }  
+        return validation
+    }
 
     const handleSubmit = e => {
         e.preventDefault()
-        // const data = {firstName: firstName, lastName: lastName, email: email, password: password, image: image}
-        let formData = new FormData();
-        formData.append('firstName', firstName);
-        formData.append('lastName', lastName);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('attachement', attachement);
+        const validation = formValidation()
+
+        if (validation) {
+            let formData = new FormData();
+            formData.append('firstName', firstName);
+            formData.append('lastName', lastName);
+            formData.append('email', email);
+            formData.append('password', password);
+            formData.append('attachement', attachement);
+
         axios({
             method: 'post',
             url: 'http://localhost:3000/api/users/signup',
             data: formData,
             headers: {
-              'Content-Type': 'multipart/form-data',
+              'Content-Type': 'application/json',
             },
           })
-          .then(res => console.log(res))
-
+          .then((res) => {
+              window.alert('Votre compte a été crée, bienvenue chez Groupomania ! Veuillez vous connecter pour continuer')
+          })
           .then(() => {
             window.location.href = "/login";
         })
-        .catch( (error) => {
-            alert(error)
+        .catch((error) => {
+            alert('Veuillez remplir correctement le formulaire')
         })
         }
-    
-//         fetch('http://localhost:3000/api/users/signup', {
-//         method: 'POST',
-//         body: JSON.stringify(data),
-//         headers: {
-//             'Content-Type': 'application/json',
-//         }
-//     })
-//     .then(res => res.data)
-
-//     .then(() => {
-//       window.location.href = "/login";
-//   })
-//   .catch( (error) => {
-//       alert(error)
-//   })
-//     }
-
-
+    }
 
     return (
         <div>
@@ -67,14 +101,29 @@ function Signup() {
                 <h2>Inscrivez-vous</h2>
                 Votre prénom :
                 <input type="text" placeholder="John" className="input" value={firstName} onChange={e => newFirstName(e.target.value)}></input>
+                {invalidFirstName &&
+                <p className="signup-invalid">Veuillez uniquement utiliser des lettres et non des chiffres</p>
+                }
                 Votre nom : 
                 <input type="text" placeholder="Doe" className="input" value={lastName} onChange={e => newLastName(e.target.value)}></input>
+                {invalidLastName &&
+                <p className="signup-invalid">Veuillez uniquement utiliser des lettres et non des chiffres</p>
+                }
                 Votre email :
                 <input type="email" placeholder="toto123@gmail.com" className="input" value={email} onChange={e => newEmail(e.target.value)}></input>
+                {invalidEmail &&
+                <p className="signup-invalid">Veuillez entrer un email valide</p>
+                }
                 Votre mot de passe :
                 <input type="password" placeholder="Strongestpasswordever8" className="input" value={password} onChange={e => newPassword(e.target.value)}></input>
+                {invalidPassword &&
+                <p className="signup-invalid">Le mot de passe doit contenir 8 caractères, au moins une majuscule, une minuscule et un chiffre</p>
+                }
                 Votre image : 
                 <input type="file" name="attachement" placeholder="image" className="input" onChange={(e) => newAttachement(e.target.files[0])}></input>
+                {invalidAttachement &&
+                <p className="signup-invalid">Veuillez ajouter votre photo de profil</p>
+                }
                 <button className="login-button">Créer mon compte</button>
             </form>
             <p>Vous avez déjà un compte ? <Link to="/login">Se connecter</Link></p>
@@ -82,5 +131,4 @@ function Signup() {
         </div>
     )
 }
-
 export default Signup
