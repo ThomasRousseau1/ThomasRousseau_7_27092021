@@ -22,7 +22,7 @@ function Login() {
         } else {
             setInvalidEmail(false)
         }
-        //Validation lastName
+        // Validation lastName
         if(!regExpPassword.test(password)) {
             setInvalidPassword(true)
             validation = false
