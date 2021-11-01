@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const models = require('../models');
+const fs = require('fs');
 
 exports.signup = (req, res, next) => {
     let imageUrl = req.file
@@ -69,8 +70,16 @@ exports.modifyAccount = (req, res, next) => {
             }
         })
             .then(() => {
+                let imageUrl = req.file
+                if (imageUrl) {
+                    imageUrl = `${req.protocol}://${req.get('host')}/images/${
+                        req.file.filename
+                      }`
+                } else {
+                  imageUrl = user.attachement
+                }
                 models.User.update({
-                    //ajouter image
+                    attachement: imageUrl,
                     firstName: req.body.firstName ? req.body.firstName : user.firstName,
                     lastName: req.body.lastName ? req.body.lastName : user.lastName,
                     email: req.body.email ? req.body.email : user.email,
@@ -97,6 +106,10 @@ exports.deleteAccount = (req, res) => {
                 id: UserId
             }
         })
+        // const userAttachement = user.attachement.split('/images/')[1]
+        // fs.unlink(`images/${userAttachement}`, () => {
+            
+        // })
         .then(user => {
             if (user != null) {
                 models.Post.destroy({
