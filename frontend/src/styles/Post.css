@@ -163,11 +163,12 @@ button {
     width: 50px;
     object-fit: cover;
     border-radius: 50%;
+    margin-right: 0.8rem;
 }
 
 .post-image {
-    height: 12rem;
-    width: 20rem;
+    height: 20rem;
+    width: 80%;
     object-fit: cover;
     margin-top: 0.5rem;
 }
@@ -239,6 +240,11 @@ textarea {
     height: 2rem;
 }
 
+.post-image-modify {
+    width: 15rem;
+    height: auto;
+}
+
 
 /* Commentaires */
 .comments-container {
@@ -252,10 +258,19 @@ textarea {
     border-radius: 5px;
 }
 
+.comment-picture {
+    margin-left: 0.8rem;
+}
+
+.comment-input {
+    padding-bottom: 2rem;
+    width: 60%;
+}
+
 .comments-infos {
     display: flex;
     flex-direction: column;
-    width: 10rem;
+    width: 30%;
 }
 
 .comments-user {
@@ -279,5 +294,5 @@ textarea {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 0 1rem 0 1rem;
+    padding: 0 1rem 0 2rem;
 }
