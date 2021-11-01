@@ -187,7 +187,7 @@ return (
                                 <input type="file" name="attachement" className="input-file" onChange={(e) => modifyAttachement(e.target.files[0])}></input>
                                 <label htmlFor="attachement" className="file-cover">
                                 <FontAwesomeIcon icon={faImage} className="file-icon"></FontAwesomeIcon>
-                                    <img className="post-image" src={post.attachement} alt=""/>
+                                    <img className="post-image-modify" src={post.attachement} alt=""/>
                                 </label>
                             </div>
                             <button className="login-button" onClick={modifyPost}>Enregistrer</button>
