@@ -1,6 +1,7 @@
 const models = require('../models');
 const { Post } = require('../models/post');
 const jwt = require('jsonwebtoken');
+const post = require('../models/post');
 // const fs = require('fs');
 
 
@@ -23,18 +24,9 @@ exports.createPost = (req, res, next) => {
         where: { id: UserId }
     })
     models.Post.create ({
-        // include: [
-        //     {
-        //       model: models.User,
-        //       attributes: ['firstName', 'lastName', 'id'],
-        //     },
-        //   ],
-        // id: 
         UserId: UserId, 
-        // title: req.body.title,
         content: req.body.content,
         attachement: imageUrl,
-        // attachement: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,//Générer l'url de l'image: le protocole, le nom d'hôte /image/ et le nom de fichier 
         likes: req.body.likes,
         createdAt: Date.now(),
         updatedAt: Date.now()
@@ -82,21 +74,37 @@ exports.deletePost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
     const UserId = decodedToken.userId;
-    models.Comment.destroy({ //Pour suppr le post avec le comment
-        where: { PostId: req.params.id }
-    })
-    models.Post.destroy({
-        where: {
-          id: req.params.id,
-          UserId: UserId 
-        }
-      })
-    .then(() => res.status(200).json({ message: 'Post supprimé !'}))
-    .catch((error) => res.status(400).json({ error }));
+    if (UserId === 1) {
+        models.Comment.destroy({ //Pour suppr le post avec le comment
+            where: { 
+                PostId: req.params.id,
+            }
+        })
+        models.Post.destroy({
+            where: {
+              id: req.params.id,
+            }
+          })
+          .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
+          .catch((error) => res.status(400).json({ error }));   
+    } else {
+        models.Comment.destroy({ //Pour suppr le post avec le comment
+            where: { 
+                PostId: req.params.id,
+            }
+        })
+        models.Post.destroy({
+            where: {
+              id: req.params.id,
+            }
+          })
+          .then(() => res.status(200).json({ message: 'Post supprimé !'}))
+          .catch((error) => res.status(400).json({ error }));  
+    }
 }
 
 
-exports.getAllPosts = (req, res, next) => {
+exports.getAllPosts = (req, res) => {
     models.Post.findAll({  include: [
         {
           model: models.User,
