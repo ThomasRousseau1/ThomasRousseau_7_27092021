@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
+    admin: DataTypes.BOOLEAN,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
