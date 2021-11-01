@@ -128,17 +128,15 @@ return (
             {/* revoir le parent  */}
                 <div className="post-infos">
                     <div className="post-name">
-                        {/* faire condition pour user picture ou non */}
                         <div>
                             <img src={post.User.attachement} className="post-picture" alt=""/>
-                        {/* <FontAwesomeIcon icon={faUserCircle} className="post-user"></FontAwesomeIcon> */}
                         </div>
                     <div>
                     <p><strong>{post.User.firstName} {post.User.lastName}</strong></p>
                     <Moment format="D MMM YYYY">{post.createdAt}</Moment>
                     </div>
                     </div>
-                    {(userId === post.User.id || userId === 1 && 
+                    {((userId === post.User.id || userId === 1) && 
                         <div className="post-actions">
                             <FontAwesomeIcon icon={faWrench} className="deletePost-icon" onClick={() => { setVisible(!visible); setFocusPost(post.id); } }>{visible ? 'Annulez votre modification!' : 'Modifiez votre publication'}</FontAwesomeIcon>
                             <FontAwesomeIcon icon={faTrash} className="deletePost-icon" onClick={e => deletePost(e, post.id)}></FontAwesomeIcon>
@@ -146,7 +144,9 @@ return (
                     )}
                 </div>
                 <p>{post.content}</p>
+                {post.attachement !==null &&
                     <img className="post-image" src={post.attachement} alt=""/>
+                }
                 <div className="post-border">
                 </div>
             
@@ -160,14 +160,16 @@ return (
             <div>
                 { listComments.filter((comment) => comment.PostId === post.id).map((comment, id) => {
                     return <div key={comment.id} className="comments-container">
+                        <div className="comment-picture">
                         <img src={comment.User.attachement} alt="" className="post-picture"/>
+                        </div>
                             <div className="comments-infos">
                             <p className="comments-user">{comment.User.firstName} {comment.User.lastName}</p>
                             <p className="comments-date">Le <Moment format="D MMM YYYY">{comment.createdAt}</Moment></p>
                         </div>
                         <div className="comments-content">
                             {comment.comment}
-                            {(userId === comment.User.id || userId === 1 && 
+                            {((userId === comment.User.id || userId === 1) && 
                             <FontAwesomeIcon icon={faTrash} className="deleteComment-icon" onClick={e => deleteComment(e, comment.id)}></FontAwesomeIcon>
                             )}
                             </div>
