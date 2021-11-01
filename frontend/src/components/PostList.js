@@ -5,11 +5,11 @@ import Moment from 'react-moment';
 import '../styles/Post.css'
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+// import Home from './Home'
 
 const PostList = ({ posts, test }) => {
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user['id']
-    console.log(userId)
     
 const deletePost = (e, id) => {
     e.preventDefault()
@@ -65,7 +65,7 @@ const getAllComments = () => {
     fetch('http://localhost:3000/api/comments/', {
     headers: { 
         Authorization:'Bearer '+localStorage.getItem('token'),
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
     },})
     .then(res => res.json())  
     .then(data => setComments(data))}
@@ -138,46 +138,36 @@ return (
                     <Moment format="D MMM YYYY">{post.createdAt}</Moment>
                     </div>
                     </div>
-                    {(userId === post.User.id && 
+                    {(userId === post.User.id || userId === 1 && 
                         <div className="post-actions">
                             <FontAwesomeIcon icon={faWrench} className="deletePost-icon" onClick={() => { setVisible(!visible); setFocusPost(post.id); } }>{visible ? 'Annulez votre modification!' : 'Modifiez votre publication'}</FontAwesomeIcon>
                             <FontAwesomeIcon icon={faTrash} className="deletePost-icon" onClick={e => deletePost(e, post.id)}></FontAwesomeIcon>
                         </div>     
                     )}
                 </div>
-                {/* <p><strong>{post.title}</strong></p> */}
                 <p>{post.content}</p>
                     <img className="post-image" src={post.attachement} alt=""/>
-                {/* <div className="post-likes">
-                    <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                    <p>{post.likes}</p>
-                </div>
-                <div className="Likes-comments">
-                    <p>J'aime</p>
-                    <p>Commenter</p>
-                </div> */}
                 <div className="post-border">
                 </div>
             
                 <form  onSubmit={e => addComment(e, post.id)}>
                 <label>
                     <br/>
-                    {/* Voir pour donner un aspect de textarea */}
-                    <input type="text" name="comment" placeholder="Votre commentaire..." maxLength="250" value={comment.id} onChange={e => newComment(e.target.value)}></input>
+                    <input type="text" name="comment" placeholder="Votre commentaire..." maxLength="250" value={comment.id} onChange={e => newComment(e.target.value)} className="comment-input"></input>
                 </label>
-        
-                <button type="submit" className="login-button">Commenter</button>
+                {/* <button type="submit" className="login-button">Commenter</button> */}
             </form>
             <div>
                 { listComments.filter((comment) => comment.PostId === post.id).map((comment, id) => {
-                    return <div key={id} className="comments-container">
+                    return <div key={comment.id} className="comments-container">
+                        <img src={comment.User.attachement} alt="" className="post-picture"/>
                             <div className="comments-infos">
                             <p className="comments-user">{comment.User.firstName} {comment.User.lastName}</p>
                             <p className="comments-date">Le <Moment format="D MMM YYYY">{comment.createdAt}</Moment></p>
                         </div>
                         <div className="comments-content">
                             {comment.comment}
-                            {(userId === comment.User.id && 
+                            {(userId === comment.User.id || userId === 1 && 
                             <FontAwesomeIcon icon={faTrash} className="deleteComment-icon" onClick={e => deleteComment(e, comment.id)}></FontAwesomeIcon>
                             )}
                             </div>
@@ -188,7 +178,7 @@ return (
                     {visible && focusPost === post.id &&
                         <form className="modify-form" onSubmit={e => modifyPost(e, post.id)}>
                             <h2 className="modify-title">Modifiez votre publication</h2>
-                            <div className="modify-inputs">
+                            <div key={post.id} className="modify-inputs">
                                 <label htmlFor="content" className="modify-label">
                                     <textarea type="text" name="message" placeholder="Modifiez votre publication" className="modify-textarea" defaultValue={post.content} onChange={e => modifyContent(e.target.value)}></textarea>
                                 </label>
