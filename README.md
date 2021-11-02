@@ -12,12 +12,19 @@ Septième projet à réaliser dans le cadre de la formation Développeur Web d'O
 - Ajoutez un fichier .env dans le dossier backend puis ajoutez les valeurs suivantes : 
   
 JWT_SIGN_SECRET = RANDOM_TOKEN_SECRET
+
 DB_SEQUELIZE = 'groupomania', 'root', '', {host: 'localhost', dialect: 'mysql'}
+
 DB_USERNAME = root
+
 DB_PASSWORD =
+
 DB_NAME = groupomania
+
 DB_HOST = 127.0.0.1
+
 DB_PORT = 3308
+
 API_URL = http://localhost:3000
 
 # Connexion à MySql
