@@ -25,7 +25,7 @@ DB_HOST = 127.0.0.1
 
 DB_PORT = 3308
 
-API_URL = http://localhost:3000
+REACT_APP_BASE_URL = http://localhost:3000
 
 # Connexion à MySql
 Il vous faudra dans un premier temps créer la base de données.
