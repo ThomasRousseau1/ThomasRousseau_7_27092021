@@ -15,6 +15,7 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)//ajout du mdp du corps de la requête venant du frontend
         .then(hash => {
             models.User.create({
+            // admin: 1,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
@@ -86,7 +87,15 @@ exports.modifyAccount = (req, res, next) => {
                 }, {
                     where: { id: UserId }
                 })
-                .then(() => res.status(200).json({ message: 'Profil modifié' }))
+                .then(() => res.status(200).json({
+                    user: {
+                        id: user.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        attachement: user.attachement
+                    },
+                    }))
                 .catch(error => res.status(400).json({ error }))
             })
         

@@ -249,13 +249,15 @@ textarea {
 /* Commentaires */
 .comments-container {
     width: 100%;
-    height: 4rem;
+    /* height: 4rem; */
     margin-top: 1rem;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     background-color: #E8E8E8;
     border-radius: 5px;
+    padding: 1rem 0 1rem 0;
 }
 
 .comment-picture {
@@ -270,7 +272,6 @@ textarea {
 .comments-infos {
     display: flex;
     flex-direction: column;
-    width: 30%;
 }
 
 .comments-user {

@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true
     },
-    PostId: DataTypes.INTEGER,
     UserId: DataTypes.INTEGER,
     comment: DataTypes.STRING,
     createdAt: DataTypes.DATE,

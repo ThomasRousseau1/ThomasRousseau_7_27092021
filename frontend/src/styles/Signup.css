@@ -8,3 +8,9 @@
     height: 8rem;
     margin: 2.3rem;
 }
+
+.signup-invalid {
+    width: 18rem;
+    margin-top: 0;
+    color: #fd2d01;
+}
