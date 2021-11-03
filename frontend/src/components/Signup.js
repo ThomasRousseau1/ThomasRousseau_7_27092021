@@ -5,7 +5,7 @@ import logo2 from "../assets/icon-above-font.png";
 import axios from "axios";
 import { regExpNames, regExpEmail, regExpPassword } from "../utils/Regex.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 function Signup() {
   const [firstName, newFirstName] = useState("");
@@ -170,6 +170,24 @@ function Signup() {
               className="file-icon"
             ></FontAwesomeIcon>
           </label>
+          {attachement && (
+          <div className="postimg-container">
+            <img
+              className="post-img"
+              alt=""
+              src={URL.createObjectURL(attachement)}
+            />
+            <button
+              onClick={() => newAttachement(null)}
+              className="delete-img"
+            >
+              <FontAwesomeIcon
+                icon={faTimesCircle}
+                className="deleteimg-icon"
+              ></FontAwesomeIcon>
+            </button>
+          </div>
+        )}
           {invalidAttachement && (
             <p className="signup-invalid">
               Veuillez ajouter votre photo de profil
