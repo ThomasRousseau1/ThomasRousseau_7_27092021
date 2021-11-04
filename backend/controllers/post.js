@@ -1,11 +1,9 @@
 const models = require("../models");
-const { Post } = require("../models/post");
 const jwt = require("jsonwebtoken");
-const post = require("../models/post");
-// const fs = require('fs');
+const fs = require('fs');
 
 //Création d'un post
-exports.createPost = (req, res, next) => {
+exports.createPost = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, process.env.JWT_SIGN_SECRET);
   const UserId = decodedToken.userId;
@@ -25,7 +23,6 @@ exports.createPost = (req, res, next) => {
     UserId: UserId,
     content: req.body.content,
     attachement: imageUrl,
-    likes: req.body.likes,
     createdAt: Date.now(),
     updatedAt: Date.now(),
   })
@@ -52,7 +49,6 @@ exports.modifyPost = (req, res, next) => {
   }
   models.Post.update(
     {
-      // title: req.body.title,
       content: req.body.content ? req.body.content : post.content,
       attachement: imageUrl,
     },

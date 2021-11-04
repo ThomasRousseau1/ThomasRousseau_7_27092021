@@ -47,19 +47,22 @@ function Login() {
           "Content-Type": "application/json",
         },
       })
-        .then((res) => res.json())
         .then((res) => {
           console.log(res);
-          localStorage.setItem("token", res.token);
-          localStorage.setItem("user", JSON.stringify(res.user));
-        })
-        .then(() => {
-          window.location.href = "/home";
+          if (res.status === 200) {
+            res.json().then((response) => {
+              localStorage.setItem("token", response.token);
+              localStorage.setItem("user", JSON.stringify(response.user));
+              window.location.href = "/home";
+            })
+          } else {
+            window.alert("Connexion impossible, veuillez vous reconnecter");
+            window.location.href = "/login";
+          }
         })
         .catch((error) => {
           window.alert("Connexion impossible");
         });
-      console.log(data);
     }
   };
 

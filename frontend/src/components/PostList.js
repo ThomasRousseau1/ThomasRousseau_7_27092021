@@ -1,11 +1,12 @@
 import "../styles/Post.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faWrench, faImage } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faWrench, faImage, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import Moment from "react-moment";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const PostList = ({ posts, test }) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user["id"];
 
@@ -217,7 +218,7 @@ const PostList = ({ posts, test }) => {
                   );
                 })}
             </div>
-            <div className="modify-post">
+
               {visible && focusPost === post.id && (
                 <form
                   className="modify-form"
@@ -252,13 +253,30 @@ const PostList = ({ posts, test }) => {
                         alt=""
                       />
                     </label>
+                    {attachement && (
+                    <div className="postimg-container-modify">
+                      <img
+                        className="post-img"
+                        alt=""
+                        src={URL.createObjectURL(attachement)}
+                      />
+                      <button
+                        onClick={() => modifyAttachement(null)}
+                        className="delete-img"
+                      >
+                        <FontAwesomeIcon
+                          icon={faTimesCircle}
+                          className="deleteimg-icon"
+                        ></FontAwesomeIcon>
+                      </button>
+                    </div>
+                  )}
                   </div>
                   <button className="login-button" onClick={modifyPost}>
                     Enregistrer
                   </button>
                 </form>
               )}
-            </div>
           </div>
         </>
       ))}

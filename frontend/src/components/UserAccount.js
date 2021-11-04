@@ -3,18 +3,15 @@ import "../styles/UserAccount.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faImage,
   faTrash,
-  faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { regExpNames, regExpEmail } from "../utils/Regex.js";
 import axios from "axios";
 
 function UserAccount() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const userAttachement = localStorage.getItem("userAttachement");
-  // console.log(user.attachement)
-  const [attachement, modifyAttachement] = useState(null);
+
+  const attachement = user.attachement;
   const [firstName, modifyFirstName] = useState("");
   const [lastName, modifyLastName] = useState("");
   const [email, modifyEmail] = useState("");
@@ -61,14 +58,15 @@ function UserAccount() {
     const validation = formValidation();
     e.preventDefault();
     if (validation) {
-      let formData = new FormData();
-      formData.append("attachement", attachement);
-      formData.append("firstName", firstName);
-      formData.append("lastName", lastName);
-      formData.append("email", email);
+      // let formData = new FormData();
+      // formData.append("attachement", attachement);
+      // formData.append("firstName", firstName ? firstName : user.firstName);
+      // formData.append("lastName", lastName ? lastName : user.lastName);
+      // formData.append("email", email ? email : user.email);
 
       const data = {
-        attachement: attachement ? userAttachement : user.attachement,
+        id: id ? id : user.id,
+        attachement: user.attachement,
         firstName: firstName ? firstName : user.firstName,
         lastName: lastName ? lastName : user.lastName,
         email: email ? email : user.email,
@@ -76,20 +74,19 @@ function UserAccount() {
       axios({
         method: "put",
         url: `http://localhost:3000/api/users/${id}`,
-        data: formData,
+        data: data,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       })
         .then((res) => {
           console.log(res);
           localStorage.setItem("user", JSON.stringify(data));
-          localStorage.setItem("userAttachement", attachement);
         })
         .then((res) => {
           console.log(res);
-          window.location.reload();
+          window.location.href = '/home';
         })
         .catch((error) => {
           alert(error);
@@ -97,29 +94,6 @@ function UserAccount() {
         });
     }
   };
-
-  // fetch('http://localhost:3000/api/users/' + id, {
-  //     method: 'PUT',
-  //     body: JSON.stringify(data),
-  //     headers: {
-  //         Authorization:'Bearer '+localStorage.getItem('token'),
-  //         'Content-Type': 'multipart/form-data'
-  //     },
-  //     })
-  //     .then(res => res.json())
-  //     .then(
-  //         (res) => {
-  //             console.log(res)
-  //             localStorage.setItem('user', JSON.stringify(data))
-  //         })
-  //     .then(() => {
-  //             window.location.href = "/home";
-  //         })
-  //     .catch( (error) => {
-  //         alert(error)
-  //         console.log(error)
-  //     })
-  // }
 
   const deleteAccount = (e, id) => {
     e.preventDefault();
@@ -146,54 +120,7 @@ function UserAccount() {
   return (
     <div className="App-connect">
       <form className="form" onSubmit={(e) => modifyAccount(e, user.id)}>
-        {/* {attachement ? attachement === undefined : } */}
-        {attachement ? (
-          <img
-            src={userAttachement}
-            className="profile-img"
-            alt="Votre avatar"
-          />
-        ) : (
-          <img
-            src={user.attachement}
-            className="profile-img"
-            alt="Votre avatar"
-          />
-        )}
-        {/* <img src={user.attachement} value={user.attachement} className="profile-img" alt="Votre avatar"/>
-            <img src={userAttachement} value={userAttachement} className="profile-img" alt="Votre avatar"/> */}
-        <input
-          type="file"
-          name="attachement"
-          className="input-file"
-          onChange={(e) => {
-            modifyAttachement(e.target.files[0]);
-          }}
-        />
-        <label className="file-cover">
-          <FontAwesomeIcon
-            icon={faImage}
-            className="file-icon"
-          ></FontAwesomeIcon>
-        </label>
-        {attachement && (
-          <div className="postimg-container">
-            <img
-              className="post-img"
-              alt=""
-              src={URL.createObjectURL(attachement)}
-            />
-            <button
-              onClick={() => modifyAttachement(null)}
-              className="delete-img"
-            >
-              <FontAwesomeIcon
-                icon={faTimesCircle}
-                className="deleteimg-icon"
-              ></FontAwesomeIcon>
-            </button>
-          </div>
-        )}
+            <img src={user.attachement} value={user.attachement} className="profile-img" alt="Votre avatar"/>
         <h1 className="user-title">Vos informations</h1>
         Votre prénom :
         <input

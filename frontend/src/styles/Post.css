@@ -39,6 +39,7 @@
 /* Bouton upload file */
 .input-file {
     margin-top: 1rem;
+    padding-bottom: 1rem;
     align-self: center;
     z-index: 1;
 }
@@ -207,7 +208,7 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 30rem;
+    width: 80%;
     position: absolute;
     top: 0;
     background: #E8E8E8;
@@ -243,8 +244,18 @@ textarea {
 .post-image-modify {
     width: 15rem;
     height: auto;
+    position: relative;
 }
 
+.postimg-container-modify {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    width: 20rem;
+    position: relative;
+    bottom: 11.5rem;
+    left: 5rem;
+}
 
 /* Commentaires */
 .comments-container {
@@ -266,7 +277,7 @@ textarea {
 
 .comment-input {
     padding-bottom: 2rem;
-    width: 60%;
+    width: 80%;
 }
 
 .comments-infos {
@@ -276,6 +287,7 @@ textarea {
 
 .comments-user {
     margin: 0;
+    font-weight: bold;
 }
 
 .comments-date {
@@ -285,6 +297,9 @@ textarea {
 
 .deleteComment-icon {
     cursor: pointer;
+    position: relative;
+    bottom: 3rem;
+    left: 3.5rem;
 }
 
 .deleteComment-icon:hover {
@@ -295,5 +310,11 @@ textarea {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 0 1rem 0 2rem;
+    padding: 0 5rem 0 5rem;
+}
+
+@media screen and (max-width: 768px) {
+    .post {
+        width: 80%;
+    }
 }

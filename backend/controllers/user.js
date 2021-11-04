@@ -74,18 +74,9 @@ exports.modifyAccount = (req, res, next) => {
       where: {
         id: UserId,
       },
-    }).then(() => {
-      let imageUrl = req.file;
-      if (imageUrl) {
-        imageUrl = `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
-        }`;
-      } else {
-        imageUrl = user.attachement;
-      }
+    })
       models.User.update(
         {
-          attachement: imageUrl,
           firstName: req.body.firstName ? req.body.firstName : user.firstName,
           lastName: req.body.lastName ? req.body.lastName : user.lastName,
           email: req.body.email ? req.body.email : user.email,
@@ -95,18 +86,10 @@ exports.modifyAccount = (req, res, next) => {
         }
       )
         .then(() =>
-          res.status(200).json({
-            user: {
-              id: user.id,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-              attachement: user.attachement,
-            },
+          res.status(200).json({ message: 'Profil modifié !'
           })
         )
         .catch((error) => res.status(400).json({ error }));
-    });
   }
 };
 
