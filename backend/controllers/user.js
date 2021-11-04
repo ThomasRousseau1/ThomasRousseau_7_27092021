@@ -104,24 +104,20 @@ exports.deleteAccount = (req, res) => {
         id: UserId,
       },
     })
-      // const userAttachement = user.attachement.split('/images/')[1]
-      // fs.unlink(`images/${userAttachement}`, () => {
-
-      // })
       .then((user) => {
         if (user != null) {
-          models.Post.destroy({
-            where: { UserId: user.id },
-          }).then(() => {
-            console.log(
-              "Toutes les publications de l'utilisateur ont été supprimées"
-            );
-          });
           models.Comment.destroy({
             where: { UserId: user.id },
           }).then(() => {
             console.log(
               "Tous les commentaires de l'utilisateur ont été supprimés"
+            );
+          });
+          models.Post.destroy({
+            where: { UserId: user.id },
+          }).then(() => {
+            console.log(
+              "Toutes les publications de l'utilisateur ont été supprimées"
             );
           });
           models.User.destroy({
