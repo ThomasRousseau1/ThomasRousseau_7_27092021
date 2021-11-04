@@ -11,7 +11,6 @@ import axios from "axios";
 function UserAccount() {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const attachement = user.attachement;
   const [firstName, modifyFirstName] = useState("");
   const [lastName, modifyLastName] = useState("");
   const [email, modifyEmail] = useState("");
@@ -58,12 +57,6 @@ function UserAccount() {
     const validation = formValidation();
     e.preventDefault();
     if (validation) {
-      // let formData = new FormData();
-      // formData.append("attachement", attachement);
-      // formData.append("firstName", firstName ? firstName : user.firstName);
-      // formData.append("lastName", lastName ? lastName : user.lastName);
-      // formData.append("email", email ? email : user.email);
-
       const data = {
         id: id ? id : user.id,
         attachement: user.attachement,
