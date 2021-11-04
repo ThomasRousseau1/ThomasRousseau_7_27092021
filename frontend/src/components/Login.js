@@ -48,7 +48,6 @@ function Login() {
         },
       })
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             res.json().then((response) => {
               localStorage.setItem("token", response.token);

@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const PostList = ({ posts, test }) => {
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  // const BASE_URL = process.env.REACT_APP_BASE_URL;
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user["id"];
 
@@ -119,8 +119,7 @@ const PostList = ({ posts, test }) => {
   return (
     <div className="App-posts">
       {posts.map((post) => (
-        <>
-          <div key={posts.id} className="post">
+        <div key={post.id} className="post">
             <div className="post-infos">
               <div className="post-name">
                 <div>
@@ -277,8 +276,7 @@ const PostList = ({ posts, test }) => {
                   </button>
                 </form>
               )}
-          </div>
-        </>
+        </div>
       ))}
     </div>
   );

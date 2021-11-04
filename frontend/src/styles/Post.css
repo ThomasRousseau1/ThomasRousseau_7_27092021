@@ -313,8 +313,19 @@ textarea {
     padding: 0 5rem 0 5rem;
 }
 
+
+/* PARTIE RESPONSIVE  */
 @media screen and (max-width: 768px) {
     .post {
         width: 80%;
+    }
+    .App-post {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .post-image {
+        height: 10rem;
     }
 }
