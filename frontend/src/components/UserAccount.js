@@ -79,7 +79,7 @@ function UserAccount() {
         })
         .then((res) => {
           console.log(res);
-          window.location.href = '/home';
+          window.location.reload();
         })
         .catch((error) => {
           alert(error);
