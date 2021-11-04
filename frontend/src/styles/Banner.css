@@ -7,14 +7,24 @@
     align-items: center;
 }
 
+.lmj-banner a:last-child {
+    margin-bottom: 1rem;
+}
+
 .lmj-logo {
-    height: 8rem;
-    margin: 2.3rem;
+    height: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.main-logo {
+    height: 3rem;
+    align-self: center;
+    margin-bottom: 1rem;
+    padding-left: 5rem;
 }
 
 .connexion-search {
     display: flex;
-    padding: 3rem;
 }
     
 .connexion-feed {
@@ -30,7 +40,7 @@
     
 .connexion-banner {
     display: flex;
-    width: 15rem;
+    width: 10rem;
     z-index: 1;
     position: absolute;
     top: 0;
@@ -73,4 +83,18 @@
     padding: 0 1rem 0 1rem;
     font-weight: bold;
     color: #000;
+}
+
+/* PARTIE RESPONSIVE */
+
+@media screen and (max-width: 768px) {
+    .main-logo {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .lmj-logo {
+        display: none;
+    }
 }
