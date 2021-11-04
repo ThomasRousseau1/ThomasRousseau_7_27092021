@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faUserCircle,
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
-import logo from "../assets/icon-left-font.png";
+import logo from "../assets/icon.png";
+import mainLogo from "../assets/icon-left-font-monochrome-black.svg";
 import "../styles/Banner.css";
 import { Link } from "react-router-dom";
 
@@ -14,6 +14,7 @@ function Banner() {
 
   return (
     <div className="lmj-banner">
+      <img src={logo} alt="Groupomania logo" className="lmj-logo"></img>
       <div className="connexion-search">
         <Link to="/home">
           <FontAwesomeIcon
@@ -22,17 +23,11 @@ function Banner() {
           ></FontAwesomeIcon>
         </Link>
       </div>
-      <img src={logo} alt="Groupomania logo" className="lmj-logo"></img>
+      <img src={mainLogo} alt="" className="main-logo"/>
       <div className="connexion-banner">
         <div className="connexion-img">
           <Link to="/profile">
             <img src={userAttachement} alt="" className="user-attachement" />
-          </Link>
-          <Link to="/profile">
-            <FontAwesomeIcon
-              icon={faUserCircle}
-              className="connexion-user"
-            ></FontAwesomeIcon>
           </Link>
         </div>
         <Link to="/profile">
