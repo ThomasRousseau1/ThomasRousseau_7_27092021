@@ -23,7 +23,7 @@ DB_NAME = groupomania
 
 DB_HOST = 127.0.0.1
 
-DB_PORT = 3308
+DB_PORT = 3306
 
 REACT_APP_BASE_URL = http://localhost:3000
 
@@ -36,7 +36,7 @@ Connectez-vous à la base de données avec la commande suivante :
 
 Puis créez la base de données Groupomania avec la commande suivante :
 
-CREATE DATABSE groupomania;
+CREATE DATABASE groupomania;
 
 Pour finir, vous devez entrer les commandes suivantes dans votre terminal : 
 
