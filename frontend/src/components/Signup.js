@@ -179,7 +179,7 @@ function Signup() {
             />
             <button
               onClick={() => newAttachement(null)}
-              className="delete-img"
+              className="delete-img-post"
             >
               <FontAwesomeIcon
                 icon={faTimesCircle}

@@ -246,11 +246,13 @@ const PostList = ({ posts, test }) => {
                         icon={faImage}
                         className="file-icon"
                       ></FontAwesomeIcon>
+                      {!attachement && (
                       <img
                         className="post-image-modify"
                         src={post.attachement}
                         alt=""
                       />
+                      )}
                     </label>
                     {attachement && (
                     <div className="postimg-container-modify">

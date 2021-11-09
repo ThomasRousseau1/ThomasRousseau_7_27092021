@@ -51,7 +51,7 @@ function Post() {
                 />
                 <button
                   onClick={() => setAttachement(null)}
-                  className="delete-img"
+                  className="delete-img-post"
                 >
                   <FontAwesomeIcon
                     icon={faTimesCircle}

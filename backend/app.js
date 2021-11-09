@@ -5,8 +5,6 @@ const path = require('path');
 //Appel du module Helmet qui permet d'améliorer la sécurité de l'appli en sécurisant les requêtes http, les entêtes, 
 // empêcher le détournement de clics 
 const helmet = require('helmet');
-// const cors = require('cors');
-// const nocache = require('nocache');
 const commentRoutes = require('./routes/comment.js');
 const postRoutes = require('./routes/post.js');
 const userRoutes = require('./routes/user.js');
@@ -14,8 +12,6 @@ require('dotenv').config();
 
 //express sera appelé partout où est utilisé app 
 const app = express();
-
-// app.use = (cors());
 
 //Connection à la base de données 
 
